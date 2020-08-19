@@ -6,9 +6,9 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MainViewModel(private val app: Application) : AndroidViewModel(app) {
 
@@ -31,18 +31,15 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
 
     private fun getPetList() {
         Log.i("fetch", "fetching")
-        MyApi.retrofitService.getProperties().enqueue(
-            object : Callback<String> {
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    _response.value = "Failure" + t.message
-                    Log.i("fetch", "not fetched")
-                }
-
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-                    _response.value = response.body()
-                    Log.i("fetch", "${_response.value}")
-                }
+        viewModelScope.launch {
+            try {
+                val resultList = MyApi.retrofitService.getProperties()
+                _response.value = "${resultList.size}"
+                Log.i("fetch", "success")
+            } catch (e: Exception) {
+                _response.value = "Failed: ${e.message}"
+                Log.i("fetch", "failure")
             }
-        )
+        }
     }
 }

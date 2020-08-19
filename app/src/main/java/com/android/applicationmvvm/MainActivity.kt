@@ -13,6 +13,8 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
+        binding.viewModel = viewModel
+
         binding.searchButton.setOnClickListener {
             binding.apply {
                 when {
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.lifecycleOwner = this
     }
 }
 

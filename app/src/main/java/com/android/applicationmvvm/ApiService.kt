@@ -1,23 +1,26 @@
 package com.android.applicationmvvm
 
-import retrofit2.Call
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
-import retrofit2.create
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 
 
 private const val BASE_URL = "https://mvvm-application.glitch.me/api/"
 
+private val moshi = Moshi.Builder()
+    .add(KotlinJsonAdapterFactory())
+    .build()
+
 private val retrofit = Retrofit.Builder()
-    .addConverterFactory(ScalarsConverterFactory.create())
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(BASE_URL)
     .build()
 
 interface MyApiService {
     @GET("see-pet-list")
-    fun getProperties():
-            Call<String>
+    suspend fun getProperties(): List<PetDetails>
 }
 
 object MyApi {
