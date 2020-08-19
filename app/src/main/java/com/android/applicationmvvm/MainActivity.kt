@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         binding.viewModel = viewModel
+        binding.photosGrid.adapter = PhotoGridAdapter()
 
         binding.searchButton.setOnClickListener {
             binding.apply {

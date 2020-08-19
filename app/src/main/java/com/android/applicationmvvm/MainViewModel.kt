@@ -13,9 +13,12 @@ import java.lang.Exception
 class MainViewModel(private val app: Application) : AndroidViewModel(app) {
 
     private val _response = MutableLiveData<String>()
-
     val response: LiveData<String>
         get() = _response
+
+    private val _pet = MutableLiveData<List<PetDetails>>()
+    val pet: LiveData<List<PetDetails>>
+        get() = _pet
 
     fun getAllPets() {
         getPetList()
@@ -33,12 +36,11 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
         Log.i("fetch", "fetching")
         viewModelScope.launch {
             try {
-                val resultList = MyApi.retrofitService.getProperties()
-                _response.value = "${resultList.size}"
-                Log.i("fetch", "success")
+                _pet.value = MyApi.retrofitService.getProperties()
+                Log.i("fetch", "Success: $pet")
             } catch (e: Exception) {
                 _response.value = "Failed: ${e.message}"
-                Log.i("fetch", "failure")
+                Log.i("fetch", "failure : ${e.message}")
             }
         }
     }
