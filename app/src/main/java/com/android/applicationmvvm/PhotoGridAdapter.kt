@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.applicationmvvm.databinding.GridItemBinding
 
 class PhotoGridAdapter :
-    ListAdapter<PetDetails, PhotoGridAdapter.PetDetailsViewHolder>(DiffCallBack) {
+    ListAdapter<DomainPets, PhotoGridAdapter.PetDetailsViewHolder>(DiffCallBack) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -21,20 +21,20 @@ class PhotoGridAdapter :
         holder.bind(pet)
     }
 
-    companion object DiffCallBack : DiffUtil.ItemCallback<PetDetails>() {
-        override fun areItemsTheSame(oldItem: PetDetails, newItem: PetDetails): Boolean {
+    companion object DiffCallBack : DiffUtil.ItemCallback<DomainPets>() {
+        override fun areItemsTheSame(oldItem: DomainPets, newItem: DomainPets): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: PetDetails, newItem: PetDetails): Boolean {
+        override fun areContentsTheSame(oldItem: DomainPets, newItem: DomainPets): Boolean {
             return oldItem.name == newItem.name
         }
     }
 
     class PetDetailsViewHolder(private var binding: GridItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(petDetails: PetDetails) {
-            binding.petDetail = petDetails
+        fun bind(domainPets: DomainPets) {
+            binding.domainPet = domainPets
             binding.executePendingBindings()
         }
     }

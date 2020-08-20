@@ -7,17 +7,17 @@
     <data>
 
         <variable
-            name="petDetail"
-            type="com.android.applicationmvvm.PetDetails" />
+            name="domainPet"
+            type="com.android.applicationmvvm.DomainPets" />
     </data>
 
     <ImageView
         android:id="@+id/pet_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:adjustViewBounds="true"
         android:padding="2dp"
-        app:imageUrl="@{petDetail.imgUrl}"
+        app:imageUrl="@{domainPet.url}"
         tools:src="@tools:sample/backgrounds/scenic" />
 </layout>

@@ -1,8 +1,10 @@
 package com.android.applicationmvvm
 
+import android.util.Log
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
@@ -17,9 +19,13 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 }
 
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<PetDetails>?) {
+fun bindRecyclerView(
+    recyclerView: RecyclerView,
+    data: List<DomainPets>?
+) {
     data?.let {
         val adapter = recyclerView.adapter as PhotoGridAdapter
+        Log.i("fetch", "We Reached Here: $data")
         adapter.submitList(data)
     }
 }

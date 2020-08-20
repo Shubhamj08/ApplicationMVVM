@@ -76,7 +76,7 @@
             android:padding="6dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
-            app:listData="@{viewModel.pet}"
+            app:listData="@{viewModel.pets.size() > 0 ? viewModel.pets : viewModel.pet}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

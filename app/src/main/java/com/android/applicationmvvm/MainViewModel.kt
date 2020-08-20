@@ -3,44 +3,57 @@ package com.android.applicationmvvm
 import android.app.Application
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.lang.Exception
 
 class MainViewModel(private val app: Application) : AndroidViewModel(app) {
 
-    private val _response = MutableLiveData<String>()
-    val response: LiveData<String>
-        get() = _response
+    lateinit var pet: LiveData<List<DomainPets>>
 
-    private val _pet = MutableLiveData<List<PetDetails>>()
-    val pet: LiveData<List<PetDetails>>
-        get() = _pet
+    private val repository = PetsRepository(getDataBase((app)))
 
-    fun getAllPets() {
-        getPetList()
+    var pets: List<DomainPets>? = listOf()
+
+    init {
+        refreshFromRepository()
+        getPets(MyApiFilter.SHOW_ALL.value)
     }
 
-    fun getDogs() {
-        Toast.makeText(app, "Dogs", Toast.LENGTH_SHORT).show()
+    fun getPets(filter: String) {
+        pet = repository.pets
+        when (filter) {
+            "" -> {
+                pets = pet.value?.filter {
+                    it.name.isNotEmpty()
+                }
+                return
+            }
+            "dog" -> {
+                pets = pet.value?.filter { list ->
+                    list.type == MyApiFilter.SHOW_DOGS.value
+                }
+                Log.i("fetch", "dogs: ${pets?.size}")
+                return
+            }
+            "cat" -> {
+                pets = pet.value?.filter { list ->
+                    list.type == MyApiFilter.SHOW_CATS.value
+                }
+                Log.i("fetch", "cats: ${pets?.size}")
+                return
+            }
+        }
     }
 
-    fun getCats() {
-        Toast.makeText(app, "Cats", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun getPetList() {
-        Log.i("fetch", "fetching")
+    private fun refreshFromRepository() {
         viewModelScope.launch {
             try {
-                _pet.value = MyApi.retrofitService.getProperties()
-                Log.i("fetch", "Success: $pet")
+                repository.refreshContents()
             } catch (e: Exception) {
-                _response.value = "Failed: ${e.message}"
-                Log.i("fetch", "failure : ${e.message}")
+                Log.i("fetch", "error in vm: $e")
             }
         }
     }

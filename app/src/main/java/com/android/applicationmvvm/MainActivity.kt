@@ -19,11 +19,12 @@ class MainActivity : AppCompatActivity() {
         binding.searchButton.setOnClickListener {
             binding.apply {
                 when {
-                    allPets.isChecked -> viewModel.getAllPets()
-                    dogs.isChecked && cats.isChecked -> viewModel.getAllPets()
-                    dogs.isChecked -> viewModel.getDogs()
-                    cats.isChecked -> viewModel.getCats()
+                    allPets.isChecked -> viewModel.getPets(MyApiFilter.SHOW_ALL.value)
+                    dogs.isChecked && cats.isChecked -> viewModel.getPets(MyApiFilter.SHOW_ALL.value)
+                    dogs.isChecked -> viewModel.getPets(MyApiFilter.SHOW_DOGS.value)
+                    cats.isChecked -> viewModel.getPets(MyApiFilter.SHOW_CATS.value)
                 }
+                bindRecyclerView(photosGrid, viewModel.pets)
             }
         }
 
