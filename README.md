@@ -1,7 +1,7 @@
 # Application MVVM
 
 ## This android application uses MVVM architecture components
-### It is a single screen application which fetches data from a backend server <br/> then cash it into a database.
+### It is a single screen application which fetches data from a backend server using REST Api<br/> then cash it into a database.
 
 ## Backend Used :- 
 <a href="https://github.com/Shubhamj08/MVVM-backend">https://github.com/Shubhamj08/MVVM-backend</a>
