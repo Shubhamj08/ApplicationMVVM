@@ -73,7 +73,7 @@
             android:id="@+id/photosGrid"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="6dp"
+            android:padding="2dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
             app:listData="@{viewModel.pets.size() > 0 ? viewModel.pets : viewModel.pet}"
@@ -81,7 +81,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchButton"
-            tools:itemCount="4"
+            tools:itemCount="16"
             tools:listitem="@layout/grid_item" />
 
 

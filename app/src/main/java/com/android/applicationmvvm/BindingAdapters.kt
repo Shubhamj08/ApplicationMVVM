@@ -2,6 +2,7 @@ package com.android.applicationmvvm
 
 import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.ViewModelProvider
@@ -27,5 +28,13 @@ fun bindRecyclerView(
         val adapter = recyclerView.adapter as PhotoGridAdapter
         Log.i("fetch", "We Reached Here: $data")
         adapter.submitList(data)
+    }
+}
+
+@BindingAdapter("textFormat")
+fun formatText(view: TextView, pets: DomainPets?) {
+    pets?.let {
+        val age = "${pets.age.toInt()} Years"
+        view.text = age
     }
 }
